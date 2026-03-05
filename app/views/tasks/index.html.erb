@@ -1,9 +1,51 @@
-<h2>Here you can see all of your tasks:</h2>
+<div class="container mt-5">
+  <h1 class="text-white mb-4" style="text-shadow: 0 0 10px #9b59b6, 0 0 20px #9b59b6;">
+    Here you can see all of your tasks:
+  </h1>
 
-<ul>
-  <% @tasks.each do |task| %>
-  <li><%= link_to task.title, task_path(task) %> </li>
-  <% end %>
-</ul>
+  <div class="card p-4" style="background: rgba(255,255,255,0.1); box-shadow: 0 0 15px #9b59b6; border: 1px solid #9b59b6;">
+    <% @tasks.each do |task| %>
+      <div class="py-2 border-bottom d-flex align-items-center gap-2">
 
-<%= link_to "Let's create a new task?", new_task_path %>
+        <%= form_with model: task, data: {turbo: "true"} do |f| %>
+        <%= f.check_box :completed,
+          onchange: "this.form.submit()",
+          style: "cursor: pointer;" %>
+      <% end %>
+
+        <%# Titre de la tache %>
+        <%= link_to task.title, task_path(task), class: "text-white text-decoration-none" %>
+
+        <%# Bouton pour afficher/cacher les détails %>
+      <button class="btn btn-sm ms-2"
+        style="color: #9b59b6; border: none; background: none;"
+        onclick="this.nextElementSibling.classList.toggle('d-none')">
+        ▼
+      </button>
+
+      <%# Détails cachés par défaut avec d-none %>
+      <div class="d-none w-100 mt-2" style="color: #ccc;">
+        <%= task.details %>
+      </div>
+
+        <%# Bouton Delete %>
+        <%= link_to "Delete", task_path(task),
+          data: {turbo_method: :delete, turbo_confirm: "Are you sure?"},
+          class: "btn btn-sm ms-auto",
+          style: "color: white; background-color: #ff0000; box-shadow: 0 0 8px #ff0000;"
+        %>
+
+        <%# Bouton Edit %>
+        <%= link_to "Edit", edit_task_path(task),
+          class: "btn btn-sm",
+          style: "color: white; background-color: black; box-shadow: 0 0 8px white; border: 1px solid white;"
+        %>
+
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to "Let's create a new task?", new_task_path, class: "btn btn-outline-light" %>
+  </div>
+</div>

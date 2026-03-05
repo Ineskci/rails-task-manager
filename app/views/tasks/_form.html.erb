@@ -1,9 +1,32 @@
-<%= form_with model: task do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <%= f.label :details %>
-  <%= f.text_field :details %>
-  <%= f.label :completed %>
-  <%= f.check_box :completed %>
-  <%= f.submit %>
-<% end %>
+<%# Container Bootstrap avec une marge en haut (mt-5 = margin-top) %>
+<div class="container mt-5">
+
+  <%# form_with génère automatiquement le bon verb HTTP (POST ou PATCH) %>
+  <%# selon si la task est nouvelle ou existante %>
+  <%= form_with model: task do |f| %>
+
+    <%# mb-3 = margin-bottom pour espacer chaque champ %>
+    <div class="mb-3">
+      <%# Label du champ title, en blanc grâce à text-white %>
+      <%= f.label :title, class: "form-label text-white" %>
+      <%# Champ texte avec placeholder et style Bootstrap %>
+      <%= f.text_field :title, placeholder: "Let me know", class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :details, class: "form-label text-white" %>
+      <%= f.text_field :details, placeholder: "Tell me more", class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :completed, class: "form-label text-white" %>
+      <%# ms-2 = margin-left pour espacer la case du label %>
+      <%= f.check_box :completed, class: "form-check-input ms-2" %>
+    </div>
+
+    <%# Bouton submit avec effet néon rose via box-shadow %>
+    <%# box-shadow crée deux couches de lueur rose autour du bouton %>
+    <%= f.submit class: "btn", style: "background-color: #ff00ff; color: white; box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;" %>
+
+  <% end %>
+</div>
